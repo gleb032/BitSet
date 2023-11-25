@@ -4,7 +4,7 @@ extension BitSet {
   /// - Parameter newMember: An element to insert into the set.
   /// - Complexity: `O(1)`
   @inlinable
-  public mutating func insert(_ newMember: UInt64) {
+  public mutating func insert(_ newMember: UInt) {
     let index = index(for: newMember)
     let mask = mask(for: newMember)
     _update { blocks in blocks[index] |= mask }
@@ -15,7 +15,7 @@ extension BitSet {
   /// - Parameter newMember: An element of the set to remove.
   /// - Complexity: `O(1)`
   @inlinable
-  public mutating func remove(_ newMember: UInt64) {
+  public mutating func remove(_ newMember: UInt) {
     let index = index(for: newMember)
     let mask = mask(for: newMember)
     _update { blocks in blocks[index] &= ~mask }
@@ -27,7 +27,7 @@ extension BitSet {
   /// - Returns: `true` if `newMember` exists in the set, otherwise, `false`.
   /// - Complexity: `O(1)`
   @inlinable
-  public func contains(_ newMember: UInt64) -> Bool {
+  public func contains(_ newMember: UInt) -> Bool {
     let index = index(for: newMember)
     let mask = mask(for: newMember)
     return _read { blocks in blocks[index] & mask != 0 }
@@ -42,7 +42,7 @@ extension BitSet {
   /// - Returns: `true` if the bit set contains `newMember`, `false` otherwise.
   /// - Complexity: `O(1)`
   @inlinable
-  public subscript(_ newMember: UInt64) -> Bool {
+  public subscript(_ newMember: UInt) -> Bool {
     get { contains(newMember) }
     set { newValue ? insert(newMember) : remove(newMember) }
   }
@@ -50,13 +50,13 @@ extension BitSet {
 
 extension BitSet {
   @usableFromInline
-  internal func index(for value: UInt64) -> Int {
+  internal func index(for value: UInt) -> Int {
     return Int(value) / _blockMemoryLayoutSize
   }
 
   @usableFromInline
-  internal func mask(for value: UInt64) -> UInt64 {
-    let offset = value % UInt64(_blockMemoryLayoutSize)
+  internal func mask(for value: UInt) -> UInt {
+    let offset = value % UInt(_blockMemoryLayoutSize)
     return 1 << offset
   }
 }

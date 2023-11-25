@@ -15,7 +15,7 @@ final class BitSetTests: XCTestCase {
 
   func testInsertSingle() throws {
     bitset.insert(12)
-    (UInt64(0)...100).forEach {
+    (UInt(0)...100).forEach {
       if $0 == 12 {
         assert(bitset.contains($0))
       } else {
@@ -25,11 +25,11 @@ final class BitSetTests: XCTestCase {
   }
 
   func testInsertSeveral() throws {
-    let arr: [UInt64] = [1, 5, 20, 40, 77]
+    let arr: [UInt] = [1, 5, 20, 40, 77]
     arr.forEach {
       bitset.insert($0)
     }
-    (UInt64(0)...100).forEach {
+    (UInt(0)...100).forEach {
       if arr.contains($0) {
         assert(bitset.contains($0))
       } else {
@@ -56,6 +56,9 @@ final class BitSetTests: XCTestCase {
     assert(bitset1 != bitset2)
 
     bitset1.insert(1)
+    assert(bitset1 != bitset2)
+
+    bitset2.insert(1)
     assert(bitset1 != bitset2)
   }
 

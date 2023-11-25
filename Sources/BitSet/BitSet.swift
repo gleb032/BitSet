@@ -12,14 +12,14 @@ public struct BitSet {
   }
 
   @usableFromInline
-  internal var _blocks: [UInt64]
-  internal let _blockMemoryLayoutSize = MemoryLayout<UInt64>.size * 8
+  internal var _blocks: [UInt]
+  internal let _blockMemoryLayoutSize = MemoryLayout<UInt>.size * 8
 
   public init(size: Int) {
     self.size = size
 
     let blocksCount = (size + _blockMemoryLayoutSize - 1) / _blockMemoryLayoutSize
-    self._blocks = [UInt64](repeating: 0, count: blocksCount)
+    self._blocks = [UInt](repeating: 0, count: blocksCount)
 
     _check()
   }
@@ -29,7 +29,7 @@ extension BitSet {
   @inlinable @inline(__always)
   @discardableResult
   internal func _read<Return>(
-    _ body: (UnsafeBufferPointer<UInt64>) throws -> Return
+    _ body: (UnsafeBufferPointer<UInt>) throws -> Return
   ) rethrows -> Return {
     try _blocks.withUnsafeBufferPointer { block in
       try body(block)
@@ -38,7 +38,7 @@ extension BitSet {
 
   @inlinable @inline(__always)
   internal mutating func _update(
-    _ body: (inout UnsafeMutableBufferPointer<UInt64>) throws -> Void
+    _ body: (inout UnsafeMutableBufferPointer<UInt>) throws -> Void
   ) rethrows -> Void {
     try _blocks.withUnsafeMutableBufferPointer { block in
       try body(&block)
@@ -47,6 +47,6 @@ extension BitSet {
 
   @inline(__always)
   internal func _check() {
-    precondition(size <= UInt64.max)
+    precondition(size <= UInt.max)
   }
 }

@@ -21,7 +21,7 @@ extension BitSet: Codable {
     _blocks = []
     var _size = 0
     while container.isAtEnd {
-      let block = try container.decode(UInt64.self)
+      let block = try container.decode(UInt.self)
       _blocks.append(block)
       _size = max(_size, Int(block))
     }
