@@ -62,5 +62,31 @@ final class BitSetTests: XCTestCase {
     assert(bitset1 != bitset2)
   }
 
-  
+  func testSimpleIteration() throws {
+    let arr: [UInt] = [1, 9, 50, 70, 85]
+    arr.forEach {
+      bitset.insert($0)
+    }
+    
+    var iterator = bitset.makeIterator()
+    while let element = iterator.next() {
+      assert(arr.contains(element))
+    }
+  }
+
+  func testIterationOverAllElements() throws {
+    let arr: [UInt] = Array(0...100)
+    arr.forEach {
+      bitset.insert($0)
+    }
+
+    var iterator = bitset.makeIterator()
+    while let element = iterator.next() {
+      assert(arr.contains(element))
+    }
+  }
+
+  func someMoreTests() throws {
+    // TODO: 100 % coverage
+  }
 }

@@ -23,7 +23,7 @@ extension BitSet: Codable {
     while container.isAtEnd {
       let block = try container.decode(UInt.self)
       _blocks.append(block)
-      _size = max(_size, Int(block))
+      _size = Swift.max(_size, Int(block))
     }
     size = _size
   }
